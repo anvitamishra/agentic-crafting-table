@@ -6,7 +6,7 @@ their pull request and author.
 ## Unreleased
 
 ### Map
-- **Codex usage**: an optional movable map widget shows remaining 5-hour and weekly allowance and reset times from the local Codex sign-in, with a manual refresh. It is off by default and makes no model calls. (#pending, @anvitamishra)
+- **Codex usage**: an optional movable map widget shows remaining 5-hour and weekly allowance and reset times from the local Codex sign-in, with manual refresh and automatic refresh every 60 seconds. It is off by default and makes no model calls. (#pending, @anvitamishra)
 
 ## 0.17.0 — 2026-11-04
 

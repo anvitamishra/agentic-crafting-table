@@ -147,10 +147,11 @@ closes the bar without opening anything. On the Undermap ⌘F focuses its own fi
 
 **MAP-34 — Codex usage widget.** The movable widget is shown on the main map only
 when enabled in Settings → Map; it is off by default. It reads 5-hour and weekly
-remaining 5-hour and weekly allowance percentages and reset times from the local Codex
-sign-in, with a manual refresh. The request reads usage only and never starts an AI
-model call. The access token stays in the desktop main process. Hide it on the Undermap
-and while an item is expanded.
+remaining allowance percentages and reset times from the local Codex sign-in, with
+initial, manual, and automatic refresh every 60 seconds. It does not overlap usage
+requests, and unmounting clears the refresh interval. The request reads usage only and
+never starts an AI model call. The access token stays in the desktop main process. Hide
+it on the Undermap and while an item is expanded.
 
 **MAP-19 — Independent expanded-view movement.** Drag anywhere on the expanded item's menu bar (including status, directory, provider/model text and empty space; excluding buttons and other interactive controls)
 to move its open view in screen space, without moving or resizing the map bubble,

@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { CodexUsage, CodexUsageWindow } from '../codex-usage.ts';
+import { createCodexUsageRefresher, startCodexUsageAutoRefresh } from './codex-usage-refresh.ts';
 import { Button } from './ui/button.tsx';
 import { FloatingPanel } from './ui/floating-panel.tsx';
 import { PixelGlyph } from './ui/pixel-glyph.tsx';
@@ -7,11 +8,6 @@ import { PixelGlyph } from './ui/pixel-glyph.tsx';
 function resetLabel(value: string) {
   const reset = new Date(value);
   return `Resets ${reset.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}`;
-}
-
-function messageOf(error: unknown) {
-  return typeof error === 'object' && error !== null && 'message' in error && typeof error.message === 'string'
-    ? error.message : 'Could not read Codex usage.';
 }
 
 function UsageWindow({ label, usage }: { label: string; usage: CodexUsageWindow }) {
@@ -30,18 +26,16 @@ export function CodexUsageWidget() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(true);
-  const refresh = useCallback(async () => {
-    setLoading(true);
-    setError('');
-    try {
-      setUsage(await window.craftingTable.codexUsageRead());
-    } catch (failure) {
-      setError(messageOf(failure));
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-  useEffect(() => { void refresh(); }, [refresh]);
+  const refresh = useMemo(() => createCodexUsageRefresher({
+    read: () => window.craftingTable.codexUsageRead(),
+    onUsage: setUsage,
+    onError: setError,
+    onLoading: setLoading,
+  }), []);
+  useEffect(() => {
+    void refresh();
+    return startCodexUsageAutoRefresh(refresh);
+  }, [refresh]);
   if (!visible) return null;
 
   return <FloatingPanel className="codex-usage-widget" label="Codex usage" title="Codex usage" closeLabel="Hide Codex usage" close={() => setVisible(false)}
