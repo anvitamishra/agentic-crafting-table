@@ -3,6 +3,14 @@
 Status: desktop creation, native terminal, saved-session discovery, MCP and graceful
 close/reopen recovery implemented.
 
+The optional **Codex usage widget** in Settings → Map reads the local `~/.codex/auth.json`
+sign-in in the desktop process and makes a read-only GET to
+`https://chatgpt.com/backend-api/wham/usage`. Codex reports consumed allowance as
+`used_percent`; the widget displays the remaining allowance (`100 - used_percent`) for
+the 5-hour and weekly windows, identified by `limit_window_seconds`, with their reset
+times. Refresh never starts a model turn. Tokens stay in the main process. The widget is
+off by default and appears only on the main map.
+
 The installed CLI supplies models and saved-conversation metadata through its
 app-server protocol. `node scripts/probe-codex.mjs` is an optional local probe: it
 starts a dedicated stdio metadata process, performs initialization, reads the model

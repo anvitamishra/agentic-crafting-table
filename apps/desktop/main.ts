@@ -18,6 +18,7 @@ import type { ReminderDue } from '../../packages/core/reminders.ts';
 import { standupRequestSchema } from '../../packages/core/standup.ts';
 import { app, BrowserWindow, ipcMain, nativeImage, net, protocol, session, shell, dialog, screen, clipboard, Notification, Menu, MenuItem, nativeTheme } from 'electron';
 import { join, resolve, sep } from 'node:path';
+import { homedir } from 'node:os';
 import { pathToFileURL } from 'node:url';
 import { readFile, realpath, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
@@ -48,6 +49,7 @@ import { recordingsSchema, deleteRecordingSchema } from '../../packages/session-
 import { RotatingLog } from '../../packages/diagnostics/rotating-log.ts';
 import { INSTALL_LINK_SCHEME, installLinkArgument, parseInstallLink } from './install-link.ts';
 import type { InstallLinkRequest } from './install-link.ts';
+import { readCodexUsage } from './codex-usage.ts';
 
 protocol.registerSchemesAsPrivileged([{ scheme: 'craft', privileges: { standard: true, secure: true, supportFetchAPI: true } }]);
 const origin = 'craft://app';
@@ -146,6 +148,11 @@ async function main() {
   ipcMain.handle('app:copy-url', async (event, input: unknown) => {
     assertCaller(event);
     await clipboard.writeText(clipboardUrls(input));
+  });
+  ipcMain.handle('codex:usage', event => {
+    assertCaller(event);
+    const codexHome = resolve(process.env.CODEX_HOME || join(homedir(), '.codex'));
+    return readCodexUsage({ codexHome });
   });
   const broadcast = (channel: string, value: unknown) => {
     for (const window of BrowserWindow.getAllWindows()) {

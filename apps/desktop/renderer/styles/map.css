@@ -156,6 +156,74 @@
   min-height: 0;
 }
 
+.codex-usage-widget {
+  width: 300px;
+  gap: var(--act-sp-2);
+}
+
+.codex-usage-widget .floating-panel-header h2 {
+  font-size: var(--act-fs-panel);
+}
+
+.codex-usage-refresh {
+  width: 28px;
+  height: 28px;
+}
+
+.codex-usage-refresh .act-glyph {
+  width: 12px;
+  height: 12px;
+}
+
+.codex-usage-windows {
+  display: grid;
+  gap: var(--act-sp-3);
+}
+
+.codex-usage-window {
+  display: grid;
+  gap: var(--act-sp-1);
+}
+
+.codex-usage-window-heading {
+  display: flex;
+  justify-content: space-between;
+  color: var(--act-ink-soft);
+  font-size: var(--act-fs-meta);
+}
+
+.codex-usage-window-heading strong {
+  color: var(--act-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.codex-usage-meter {
+  height: 6px;
+  overflow: hidden;
+  background: var(--act-sunken);
+}
+
+.codex-usage-meter span {
+  display: block;
+  height: 100%;
+  background: var(--act-accent);
+}
+
+.codex-usage-window small {
+  color: var(--act-ink-dim);
+  font-size: var(--act-fs-meta);
+}
+
+.codex-usage-loading,
+.codex-usage-error {
+  margin: 0;
+  font-size: var(--act-fs-meta);
+}
+
+.codex-usage-error {
+  color: var(--act-error);
+}
+
 .neighborhoods {
   /* Below a muted project's cards and links (-2) and its cover (-1). */
   z-index: -3;

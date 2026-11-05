@@ -45,6 +45,8 @@ export interface DesktopBridge {
   copyUrl(url: string | string[]): Promise<void>;
   /** Saves an image pasted into an agent's terminal and returns its local path. */
   savePastedImage(bytes: Uint8Array): Promise<string>;
+  /** Reads the local Codex sign-in's 5-hour and weekly usage; never starts a model turn. */
+  codexUsageRead(): Promise<import('./codex-usage.ts').CodexUsage>;
   chooseDirectory(): Promise<string | undefined>;
   /** Launch directories, most recent first; only paths that still exist. */
   recentDirectories(): Promise<string[]>;

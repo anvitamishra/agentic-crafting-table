@@ -3,6 +3,11 @@
 Releases are Git tags (`vX.Y.Z`); `npm run update` moves a checkout to the newest one. Entries contributed by others name
 their pull request and author.
 
+## Unreleased
+
+### Map
+- **Codex usage**: an optional movable map widget shows remaining 5-hour and weekly allowance and reset times from the local Codex sign-in, with a manual refresh. It is off by default and makes no model calls. (#pending, @anvitamishra)
+
 ## 0.17.0 — 2026-11-04
 
 ### Auto deploy

@@ -30,6 +30,7 @@ import { snapPosition, snapStep } from '../../../src/graph/snap.ts';
 import { ItemIcon, StatusGlyph } from './icons.tsx';
 import { ZoomBar } from './zoom-bar.tsx';
 import { OffscreenAttention } from './offscreen-attention.tsx';
+import { CodexUsageWidget } from './codex-usage-widget.tsx';
 import type { WaitingBox } from './offscreen-attention.tsx';
 import type { Badge } from '../../../src/graph/badges.ts';
 import { WorkingAnimalContext, WorkingMark, workingMarkStyle } from './working-mark.tsx';
@@ -182,6 +183,8 @@ export interface ProjectMapProps {
   neighborhoodColor?(projectColor: string): string;
   /** What the bottom-right corner shows (MAP-22); absent is the project column. */
   mapCorner?: MapCorner;
+  /** The optional local Codex usage widget (SETTINGS-CODEX-USAGE). */
+  codexUsageWidget?: boolean;
   /** Next and Status lines by project id, shown on the project column while Summarise projects is on. */
   projectSummaries?: ReadonlyMap<string, ProjectSummaryLines>;
   /** The corner's unfolded state (the project list or the Atlas overview); controlled by the host so it survives layer travel. */
@@ -1579,6 +1582,7 @@ function MapCanvas(props: ProjectMapProps) {
     {plotMenu && <CanvasMenu screen={plotMenu.screen} actions={plotMenuActions(props.plotNaming ?? true, plotOf(plotMenu.id), plotNeighborhoods.get(plotOf(plotMenu.id)?.projectId ?? ''), props.plotTargets && props.onMoveItems && plotOf(plotMenu.id) ? props.plotTargets(plotOf(plotMenu.id)!.memberIds) : undefined)} act={plotMenuAct} close={() => setPlotMenu(undefined)} />}
     <ZoomBar zoom={viewport.zoom} dashboards={dashboardSetting} zoomTo={zoom => void zoomTo(zoom)} />
     {!focus && props.offscreenAttention && <OffscreenAttention boxes={waiting} camera={viewport} screen={size} go={box => { clearInspection(); void setCenter(box.x, box.y, { zoom: viewport.zoom, duration: duration() }); }} />}
+    {props.codexUsageWidget && !focus && (props.layer ?? 'map') === 'map' && <CodexUsageWidget />}
   </div></WorkingAnimalContext.Provider></DetailContext.Provider>;
 }
 

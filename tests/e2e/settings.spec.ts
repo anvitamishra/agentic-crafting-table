@@ -116,3 +116,28 @@ workspaceTest('padding updates all rounded outlines through shared settings with
     await expect(page.getByRole('navigation', { name: 'Map location' })).toContainText('Plan switcher');
   } finally { client.close(); }
 });
+
+workspaceTest('Codex usage setting survives saving and reopening Settings', async ({ visual: { app, page } }) => {
+  await app.evaluate(() => {
+    globalThis.fetch = async () => new Response(JSON.stringify({
+      rate_limit: {
+        primary_window: { used_percent: 36, reset_at: 1_800_000_000 },
+        secondary_window: { used_percent: 72, reset_at: 1_800_500_000 },
+      },
+    }), { headers: { 'Content-Type': 'application/json' } });
+  });
+  const settings = page.getByRole('button', { name: 'Settings', exact: true });
+  await settings.click();
+  await page.getByRole('treeitem', { name: 'Map', exact: true }).click();
+  const enabled = page.getByLabel('Codex usage widget', { exact: true });
+  await enabled.check();
+  await expect(page.getByRole('status').filter({ hasText: '1 unsaved change · Map' })).toBeVisible();
+  await page.getByRole('button', { name: 'Save settings', exact: true }).click();
+  await expect(page.getByRole('dialog', { name: 'Settings' })).toHaveCount(0);
+  expect((await page.evaluate(() => window.craftingTable.settingsRead())).value.codexUsageWidget).toBe(true);
+  await expect(page.locator('.codex-usage-widget')).toBeVisible();
+
+  await settings.click();
+  await page.getByRole('treeitem', { name: 'Map', exact: true }).click();
+  await expect(enabled).toBeChecked();
+});

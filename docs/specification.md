@@ -145,6 +145,13 @@ project. Arrows and Enter or a click pick one: the bar closes, the map slides to
 at the current zoom and only then opens it, and Escape then closes the view as usual. Escape or leaving the field
 closes the bar without opening anything. On the Undermap ⌘F focuses its own find field.
 
+**MAP-34 — Codex usage widget.** The movable widget is shown on the main map only
+when enabled in Settings → Map; it is off by default. It reads 5-hour and weekly
+remaining 5-hour and weekly allowance percentages and reset times from the local Codex
+sign-in, with a manual refresh. The request reads usage only and never starts an AI
+model call. The access token stays in the desktop main process. Hide it on the Undermap
+and while an item is expanded.
+
 **MAP-19 — Independent expanded-view movement.** Drag anywhere on the expanded item's menu bar (including status, directory, provider/model text and empty space; excluding buttons and other interactive controls)
 to move its open view in screen space, without moving or resizing the map bubble,
 rewriting graph/camera state, rearranging neighbors or changing its connections.
@@ -2518,6 +2525,11 @@ Undermap, where nothing is created. Right click or Escape still dismisses the ri
 Map, section **Needs me**, has the switch **Circles for items outside the view** (off by
 default; additive boolean `offscreenAttention`, older settings read off). When off, no
 circle shows and the Needs me number and frames are unchanged.
+
+**SETTINGS-CODEX-USAGE — Codex usage widget (MAP-34).** Settings → Map, section
+**Codex usage**, has the switch **Codex usage widget** (off by default; additive
+boolean `codexUsageWidget`, older settings read off). When enabled, the movable map
+widget reads local Codex sign-in usage without starting a model call.
 
 **SETTINGS-MAP-CORNER — Bottom-right corner (MAP-22).** Settings → **Corners**, its own
 page after Map, section **Bottom-right**, has the choice **Bottom-right corner**: **Project overview** (default) or
